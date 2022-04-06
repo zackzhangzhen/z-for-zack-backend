@@ -1,68 +1,65 @@
 const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema({
+const topAlertSchema = new Schema({
     title: String,
     text: String,
     liked: Boolean,
     date: Date,
 });
 
-blogSchema.virtual('id').get(function () {
+topAlertSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 
 // Ensure virtual fields are serialised.
-blogSchema.set('toJSON', {
+topAlertSchema.set('toJSON', {
     virtuals: true
 });
 
-blogSchema.findById = function (cb) {
-    return this.model('blogs').find({id: this.id}, cb);
+const TopAlert = mongoose.model('alerts', topAlertSchema);
+
+topAlertSchema.findById = function (cb) {
+    return this.model('alerts').find({id: this.id}, cb);
 };
 
-const Blog = mongoose.model('blogs', blogSchema);
-
 exports.findById = (id) => {
-    return Blog.findById(id)
+    return TopAlert.findById(id)
         .then((result) => {
             result = result.toJSON();
-            delete result._id;
             delete result.__v;
             return result;
         });
 };
 
-exports.create= (blogData) => {
-    const blog = new Blog(blogData);
-    return blog.save();
+exports.create= (topAlertData) => {
+    const topAlert = new TopAlert(topAlertData);
+    return topAlert.save();
 };
 
-exports.list= (perPage, page) => {
+exports.listNew= () => {
     return new Promise((resolve, reject) => {
-        Blog.find({})
+        TopAlert.find({viewed: false})
             .sort({date:-1})
-            .limit(perPage)
-            .skip(perPage * page)
-            .exec(function (err, blogs) {
+            .exec(function (err, topAlerts) {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(blogs);
+                    resolve(topAlerts);
                 }
             })
     });
 };
 
-exports.patchById = (id, blogData) => {
-    return Blog.findOneAndUpdate({
+exports.patchById = (id, topAlertData) => {
+    return TopAlert.findOneAndUpdate({
         _id: id
-    }, blogData);
+    }, topAlertData);
 };
 
-exports.removeById = (blogId) => {
+exports.removeById = (topAlertId) => {
     return new Promise((resolve, reject) => {
-        Blog.deleteMany({_id: blogId}, (err) => {
+        TopAlert.deleteMany({_id: topAlertId}, (err) => {
             if (err) {
                 reject(err);
             } else {

@@ -7,6 +7,7 @@ const app = express();
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const BlogsRouter = require('./blogs/routes.config');
+const TopAlertsRouter = require('./top-alerts/routes.config');
 
 app.
 // use(cors()).
@@ -27,6 +28,7 @@ app.use(express.json());
 AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 BlogsRouter.routesConfig(app);
+TopAlertsRouter.routesConfig(app);
 
 
 app.listen(config.port, function () {
