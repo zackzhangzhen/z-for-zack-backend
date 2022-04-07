@@ -2,11 +2,13 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    permissionLevel: Number
+    name: String,
+    password : String,
+    likes: Number,
+    level: Number,
+    credits: Number,
+    vip: Boolean,
+    admin: Boolean
 });
 
 userSchema.virtual('id').get(function () {
@@ -28,6 +30,7 @@ const User = mongoose.model('Users', userSchema);
 exports.findByEmail = (email) => {
     return User.find({email: email});
 };
+
 exports.findById = (id) => {
     return User.findById(id)
         .then((result) => {
@@ -36,6 +39,18 @@ exports.findById = (id) => {
             delete result.__v;
             return result;
         });
+};
+
+exports.findByUserNameAndPassword = (name, password) => {
+    return new Promise((resolve, reject) => {
+        User.find({name: name, password: password}).exec(function (err, users) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(users);
+            }
+        })
+    });
 };
 
 exports.createUser = (userData) => {

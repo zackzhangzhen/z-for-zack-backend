@@ -33,6 +33,22 @@ exports.getById = (req, res) => {
             res.status(200).send(result);
         });
 };
+
+exports.getByUserNameAndPassword = (req, res) => {
+    UserModel.findByUserNameAndPassword(req.query.name, req.query.password)
+    .then((result) => {
+        if (!result || result.length == 0) {
+            res.status(404).send(result);
+        } else {
+            res.status(200).send(result[0]);
+        }
+    }).catch(error => {
+        console.error(
+            `getByUserNameAndPassword failed for user ${req.params.name}`);
+        res.status(500).send(error);
+    })
+}
+
 exports.patchById = (req, res) => {
     if (req.body.password) {
         let salt = crypto.randomBytes(16).toString('base64');

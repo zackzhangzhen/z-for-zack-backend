@@ -12,9 +12,9 @@ exports.routesConfig = function (app) {
         UsersController.insert
     ]);
     app.get('/users', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
-        UsersController.list
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        UsersController.getByUserNameAndPassword
     ]);
     app.get('/users/:userId', [
         ValidationMiddleware.validJWTNeeded,
