@@ -1,6 +1,6 @@
 const config = require('./common/config/env.config.js');
 const cors = require('cors')
-
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 
@@ -11,6 +11,7 @@ const TopAlertsRouter = require('./top-alerts/routes.config');
 
 app.
 // use(cors()).
+    use(bodyParser.json()).
     use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Credentials', 'true');

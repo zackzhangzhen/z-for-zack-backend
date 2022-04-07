@@ -2,9 +2,9 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const topAlertSchema = new Schema({
-    title: String,
-    text: String,
-    liked: Boolean,
+    message: String,
+    type: String,
+    viewed: Boolean,
     date: Date,
 });
 
@@ -17,11 +17,11 @@ topAlertSchema.set('toJSON', {
     virtuals: true
 });
 
-const TopAlert = mongoose.model('alerts', topAlertSchema);
-
 topAlertSchema.findById = function (cb) {
-    return this.model('alerts').find({id: this.id}, cb);
+    return this.model('Alerts').find({id: this.id}, cb);
 };
+
+const TopAlert = mongoose.model('Alerts', topAlertSchema);
 
 exports.findById = (id) => {
     return TopAlert.findById(id)
