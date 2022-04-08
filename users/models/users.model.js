@@ -41,9 +41,13 @@ exports.findById = (id) => {
         });
 };
 
-exports.findByUserNameAndPassword = (name, password) => {
+exports.find = (name) => {
     return new Promise((resolve, reject) => {
-        User.find({name: name, password: password}).exec(function (err, users) {
+        let filter = {};
+        if (name) {
+            filter.name = name;
+        }
+        User.find(filter).exec(function (err, users) {
             if (err) {
                 reject(err);
             } else {

@@ -2,13 +2,13 @@ const UserModel = require('../models/users.model');
 const crypto = require('crypto');
 
 exports.insert = (req, res) => {
-    let salt = crypto.randomBytes(16).toString('base64');
-    let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-    req.body.password = salt + "$" + hash;
-    req.body.permissionLevel = 1;
+    // let salt = crypto.randomBytes(16).toString('base64');
+    // let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
+    // req.body.password = salt + "$" + hash;
+    // req.body.permissionLevel = 1;
     UserModel.createUser(req.body)
         .then((result) => {
-            res.status(201).send({id: result._id});
+            res.status(201).send({_id: result._id});
         });
 };
 
@@ -34,8 +34,8 @@ exports.getById = (req, res) => {
         });
 };
 
-exports.getByUserNameAndPassword = (req, res) => {
-    UserModel.findByUserNameAndPassword(req.query.name, req.query.password)
+exports.find = (req, res) => {
+    UserModel.find(req.query.name)
     .then((result) => {
         if (!result || result.length == 0) {
             res.status(404).send(result);
@@ -44,7 +44,7 @@ exports.getByUserNameAndPassword = (req, res) => {
         }
     }).catch(error => {
         console.error(
-            `getByUserNameAndPassword failed for user ${req.params.name}`);
+            "find users failed");
         res.status(500).send(error);
     })
 }
