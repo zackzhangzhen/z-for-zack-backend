@@ -23,14 +23,14 @@ exports.routesConfig = function (app) {
         UsersController.getById
     ]);
     app.patch('/users/:userId', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
-        PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(FREE),
+        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
         UsersController.patchById
     ]);
     app.delete('/users/:userId', [
-        ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        // ValidationMiddleware.validJWTNeeded,
+        // PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         UsersController.removeById
     ]);
 };

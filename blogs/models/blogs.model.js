@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const blogSchema = new Schema({
     title: String,
     text: String,
-    liked: Boolean,
+    likes: Number,
     date: Date,
+    likedBy: [String],
 });
 
 blogSchema.virtual('id').get(function () {
@@ -27,7 +28,6 @@ exports.findById = (id) => {
     return Blog.findById(id)
         .then((result) => {
             result = result.toJSON();
-            delete result._id;
             delete result.__v;
             return result;
         });

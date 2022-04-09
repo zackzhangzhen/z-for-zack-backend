@@ -1,4 +1,5 @@
 const BlogModel = require('../models/blogs.model');
+const UserModel = require('../../users/models/users.model');
 const PER_PAGE = require('../../common/config/env.config')['perPage'];
 
 exports.insert = (req, res) => {
@@ -38,11 +39,19 @@ exports.getById = (req, res) => {
 };
 
 exports.patchById = (req, res) => {
-    BlogModel.patchById(req.params.userId, req.body)
-        .then((result) => {
+    BlogModel.patchById(req.params.blogId, req.body)
+    .then((result) => {
+        if (req.query.userId && req.query.userLikes && req.query.userCredits) {
+            UserModel.patchUser(req.query.userId,
+                {
+                    likes: parseInt(req.query.userLikes),
+                    credits: parseInt(req.query.userCredits)
+                }).then(
+                res.status(204).send({}))
+        } else {
             res.status(204).send({});
-        });
-
+        }
+    });
 };
 
 exports.removeById = (req, res) => {

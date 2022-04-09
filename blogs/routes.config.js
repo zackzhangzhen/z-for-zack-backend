@@ -7,11 +7,11 @@ exports.routesConfig = function (app) {
     app.get('/blogs', [
         BlogsController.list
     ]);
-    app.get('/blogs/:blogId', [
-        BlogsController.getById
-    ]);
     app.patch('/blogs/:blogId', [
         BlogsController.patchById
+    ]);
+    app.get('/blogs/:blogId', [
+        BlogsController.getById
     ]);
     app.delete('/blogs/:blogId', [
         BlogsController.removeById
