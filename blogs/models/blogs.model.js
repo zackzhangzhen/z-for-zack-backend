@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const blogSchema = new Schema({
     title: String,
     text: String,
+    imagePath: String,
     likes: Number,
     date: Date,
     likedBy: [String],
@@ -23,6 +24,11 @@ blogSchema.findById = function (cb) {
 };
 
 const Blog = mongoose.model('blogs', blogSchema);
+
+exports.createBlog = (blogData) => {
+    const blog  = new Blog(blogData);
+    return blog.save();
+};
 
 exports.findById = (id) => {
     return Blog.findById(id)

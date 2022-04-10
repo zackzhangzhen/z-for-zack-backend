@@ -6,6 +6,7 @@ module.exports = {
     "jwt_expiration_in_seconds": 36000,
     "environment": "dev",
     "perPage": 2,
+    "blogImageFolder": "C:\\Data\\pie\\z-for-zack-ui\\src\\assets\\content\\blogs\\images\\",
     "permissionLevels": {
         "NORMAL_USER": 1,
         "PAID_USER": 4,

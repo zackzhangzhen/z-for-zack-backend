@@ -1,16 +1,16 @@
 const TopAlertsController = require('./controllers/top-alerts.controller');
 
 exports.routesConfig = function (app) {
-    app.post('/topAlerts', [
+    app.post('/top-alerts', [
         TopAlertsController.insert
     ]);
-    app.get('/topAlerts', [
+    app.get('/top-alerts', [
         TopAlertsController.listNew
     ]);
-    app.patch('/topAlerts/:topAlertId', [
+    app.patch('/top-alerts/:topAlertId', [
         TopAlertsController.patchById
     ]);
-    app.delete('/topAlerts/:topAlertId', [
+    app.delete('/top-alerts/:topAlertId', [
         TopAlertsController.removeById
     ]);
 };

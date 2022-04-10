@@ -1,14 +1,41 @@
 const BlogModel = require('../models/blogs.model');
 const UserModel = require('../../users/models/users.model');
 const PER_PAGE = require('../../common/config/env.config')['perPage'];
+const BLOG_IMAGE_FOLDER = require('../../common/config/env.config')['blogImageFolder'];
 const Utils = require('../../utils/utils')
+const formidable = require('formidable');
+const fs = require('fs');
+const uuid = require('uuid');
 exports.insert = (req, res) => {
     try {
-        BlogModel.create(req.body)
-        .then((result) => {
-            res.status(201).send({id: result._id});
-        }).catch(error => {
-            console.log(error);
+        let form = new formidable.IncomingForm();
+        let newPath= "";
+        let newFileName= "";
+        form.parse(req, function (err, fields, form) {
+            if (form.image) {
+                let oldPath = form.image.filepath;
+                newFileName = uuid.v4()+ "_" + form.image.originalFilename;
+                newPath = BLOG_IMAGE_FOLDER + newFileName;
+                fs.rename(oldPath, newPath, function (err) {
+                    if (err) throw err;
+                });
+            }
+
+            let blog = {
+                title: fields.title,
+                text: fields.text,
+                imagePath: newFileName,
+                likes: 0,
+                likedBy: [],
+                date: new Date()
+            };
+
+            BlogModel.create(blog)
+            .then((result) => {
+                res.status(201).send({id: result._id});
+            }).catch(error => {
+                throw error;
+            });
         });
     } catch (err) {
         console.log(err);
