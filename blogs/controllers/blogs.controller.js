@@ -24,7 +24,7 @@ exports.insert = (req, res) => {
             let blog = {
                 title: fields.title,
                 text: fields.text,
-                imagePath: newFileName,
+                image: newFileName,
                 likes: 0,
                 likedBy: [],
                 date: new Date()

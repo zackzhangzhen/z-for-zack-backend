@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const blogSchema = new Schema({
     title: String,
     text: String,
-    imagePath: String,
+    image: String,
     likes: Number,
     date: Date,
     likedBy: [String],
