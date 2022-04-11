@@ -2,12 +2,14 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const blogSchema = new Schema({
+    authorId: String,
     title: String,
     text: String,
     image: String,
     likes: Number,
     date: Date,
     likedBy: [String],
+    replies: [String]
 });
 
 blogSchema.virtual('id').get(function () {

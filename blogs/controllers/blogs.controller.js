@@ -22,11 +22,13 @@ exports.insert = (req, res) => {
             }
 
             let blog = {
+                authorId: fields.authorId,
                 title: fields.title,
                 text: fields.text,
                 image: newFileName,
                 likes: 0,
                 likedBy: [],
+                replies: [],
                 date: new Date()
             };
 
@@ -65,7 +67,7 @@ exports.getById = (req, res) => {
         });
 };
 
-exports.patchById = (req, res) => {
+exports.patchByIdForLike = (req, res) => {
     // get the blog and user's like related info from backend in realtime instead of using the one
     // passed in from front-end, the value from front-end could be out-dated
     // by a large margin (especially when the user has stayed on the page being
@@ -103,6 +105,48 @@ exports.patchById = (req, res) => {
         }
     ).catch(error => res.status(500).send(error));
 };
+
+exports.patchByIdForReply = (req, res) => {
+
+    if (!req.body || !req.body.blogId || !req.body.userId
+        || !req.body.replyText) {
+        res.status(204).send({})
+    }
+
+    BlogModel.findById(req.body.blogId).then(
+        blog => {
+            if (!blog.replies) {
+                blog.replies = [];
+            }
+
+            if (!req.body.replyText) {
+                return;
+            }
+
+            blog.replies.push(req.body.replyText);
+
+            BlogModel.patchById(blog._id, blog)
+            .then((result) => {
+
+                let creditsIncrement = parseInt(req.body.userCreditsIncrement);
+
+                UserModel.findById(req.body.userId).then(
+                    user => {
+                        let updatedCredits = user.credits + creditsIncrement;
+                        UserModel.patchUser(req.body.userId,
+                            {
+                                credits: updatedCredits
+                            }).then(
+                            res.status(200).send({
+                                replies: blog.replies,
+                                userCredits: updatedCredits
+                            }))
+                    }
+                )
+            }).catch(error => res.status(500).send(error));
+        }
+    ).catch(error => res.status(500).send(error));
+}
 
 exports.removeById = (req, res) => {
     BlogModel.removeById(req.params.userId)
