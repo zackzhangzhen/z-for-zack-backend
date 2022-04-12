@@ -2,14 +2,17 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const blogSchema = new Schema({
-    authorId: String,
     title: String,
     text: String,
     image: String,
     likes: Number,
     date: Date,
     likedBy: [String],
-    replies: [String]
+    replies: [String],
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "Users"
+    }
 });
 
 blogSchema.virtual('id').get(function () {
@@ -49,6 +52,7 @@ exports.create= (blogData) => {
 exports.list= (perPage, page) => {
     return new Promise((resolve, reject) => {
         Blog.find({})
+            .populate("author")
             .sort({date:-1})
             .limit(perPage)
             .skip(perPage * page)

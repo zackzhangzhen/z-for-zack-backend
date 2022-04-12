@@ -22,7 +22,7 @@ exports.insert = (req, res) => {
             }
 
             let blog = {
-                authorId: fields.authorId,
+                author: fields.author,
                 title: fields.title,
                 text: fields.text,
                 image: newFileName,
