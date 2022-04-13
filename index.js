@@ -8,6 +8,8 @@ const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const BlogsRouter = require('./blogs/routes.config');
 const TopAlertsRouter = require('./top-alerts/routes.config');
+const LevelsRouter = require('./levels/routes.config');
+const RanksRouter = require('./ranks/routes.config');
 
 app.
 // use(cors()).
@@ -30,7 +32,8 @@ AuthorizationRouter.routesConfig(app);
 UsersRouter.routesConfig(app);
 BlogsRouter.routesConfig(app);
 TopAlertsRouter.routesConfig(app);
-
+LevelsRouter.routesConfig(app);
+RanksRouter.routesConfig(app);
 
 app.listen(config.port, function () {
     console.log('app listening at port %s', config.port);
