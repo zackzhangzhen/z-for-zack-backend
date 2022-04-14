@@ -13,9 +13,8 @@ const levelSchema = new Schema({
     date: Date,
     user: {
         type: Schema.Types.ObjectId,
-        ref: "Users"
-    },
-    userId: String
+        ref: "users"
+    }
 });
 
 const Level = mongoose.model('levels', levelSchema);
@@ -36,7 +35,7 @@ exports.findById = (id) => {
 
 exports.list= (userId) => {
     return new Promise((resolve, reject) => {
-        Level.find({userId: userId})
+        Level.find({user: userId})
             .populate("user")
             // .populate("lastRank")
             .populate("currentRank")

@@ -11,7 +11,7 @@ const blogSchema = new Schema({
     replies: [String],
     author: {
         type: Schema.Types.ObjectId,
-        ref: "Users"
+        ref: "users"
     }
 });
 

@@ -21,10 +21,10 @@ userSchema.set('toJSON', {
 });
 
 userSchema.findById = function (cb) {
-    return this.model('Users').find({id: this.id}, cb);
+    return this.model('users').find({id: this.id}, cb);
 };
 
-const User = mongoose.model('Users', userSchema);
+const User = mongoose.model('users', userSchema);
 
 exports.findByEmail = (email) => {
     return User.find({email: email});
